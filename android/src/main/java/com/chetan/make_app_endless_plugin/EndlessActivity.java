@@ -3,7 +3,6 @@ package com.chetan.make_app_endless_plugin;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,8 +12,6 @@ import io.flutter.embedding.engine.FlutterEngine;
 import io.flutter.embedding.engine.FlutterEngineCache;
 
 public class EndlessActivity extends FlutterActivity {
-
-    private static final String TAG = EndlessActivity.class.getSimpleName();
 
     private SharedPreferences preferences;
     private FlutterEngine flutterEngine;
@@ -32,7 +29,6 @@ public class EndlessActivity extends FlutterActivity {
     @Override
     public FlutterEngine provideFlutterEngine(@NonNull Context context) {
         if(FlutterEngineCache.getInstance().contains(ConstantsOnlyForAndroid.CACHED_ENGINE_ID)) {
-            Log.d(TAG, "provideFlutterEngine: cached engine available");
             flutterEngine = FlutterEngineCache.getInstance().get(ConstantsOnlyForAndroid.CACHED_ENGINE_ID);
             return flutterEngine;
         }
@@ -46,7 +42,6 @@ public class EndlessActivity extends FlutterActivity {
     }
 
     private FlutterEngine setupFlutterEngine() {
-        Log.v(TAG, "Setting up FlutterEngine.");
 
         flutterEngine =
                 new FlutterEngine(

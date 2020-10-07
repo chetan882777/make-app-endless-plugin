@@ -4,7 +4,6 @@ import android.app.Service;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.IBinder;
-import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
@@ -14,18 +13,14 @@ import io.flutter.embedding.engine.FlutterEngineCache;
 
 public class PluginService  extends Service {
 
-    private static final String TAG = PluginService.class.getSimpleName();
-
     private FlutterEngine flutterEngine;
     private SharedPreferences preferences;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        Log.d(TAG, "onCreate: CALLED");
 
         if (!FlutterEngineCache.getInstance().contains(ConstantsOnlyForAndroid.CACHED_ENGINE_ID)) {
-            Log.e(TAG, "onCreate: engine cannot null");
             throw new RuntimeException("Engine cannot be null");
         }
         flutterEngine = FlutterEngineCache.getInstance().get(ConstantsOnlyForAndroid.CACHED_ENGINE_ID);
@@ -45,7 +40,6 @@ public class PluginService  extends Service {
 
         if (!preferences.getBoolean(ConstantsOnlyForAndroid.PREF_IS_ACTIVITY_ACTIVE,
                 ConstantsOnlyForAndroid.PREF_ACTIVITY_ACTIVE)) {
-            Log.d(TAG, "onDestroy: destroy engine");
             FlutterEngineCache.getInstance().remove(ConstantsOnlyForAndroid.CACHED_ENGINE_ID);
             flutterEngine.destroy();
         }
@@ -67,10 +61,11 @@ public class PluginService  extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         if(intent.hasExtra(ConstantsOnlyForAndroid.INTENT_EXTRA_SHOULD_STOP_SERVICE)){
             boolean shouldStop = intent.getBooleanExtra(ConstantsOnlyForAndroid.INTENT_EXTRA_SHOULD_STOP_SERVICE, false);
+
             if(isServiceActive && shouldStop){
                 stopForeground(true);
                 stopSelf();
-            } else if(!isServiceActive) {
+            } else if(!isServiceActive && !shouldStop) {
                 isServiceActive = true;
 
                 notificationManager = new PluginNotificationManager(this);
