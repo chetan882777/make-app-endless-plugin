@@ -6,13 +6,13 @@ import android.content.SharedPreferences;
 import android.os.IBinder;
 
 import androidx.annotation.Nullable;
-import androidx.core.app.NotificationCompat;
 
 import io.flutter.embedding.engine.FlutterEngine;
 import io.flutter.embedding.engine.FlutterEngineCache;
 
-public class PluginService  extends Service {
+public class PluginService extends Service {
 
+    public static final int NOTIFICATION_ID = 1;
     private FlutterEngine flutterEngine;
     private SharedPreferences preferences;
 
@@ -59,26 +59,43 @@ public class PluginService  extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        if(intent.hasExtra(ConstantsOnlyForAndroid.INTENT_EXTRA_SHOULD_STOP_SERVICE)){
+        if (intent.hasExtra(ConstantsOnlyForAndroid.INTENT_EXTRA_SHOULD_STOP_SERVICE)) {
             boolean shouldStop = intent.getBooleanExtra(ConstantsOnlyForAndroid.INTENT_EXTRA_SHOULD_STOP_SERVICE, false);
 
-            if(isServiceActive && shouldStop){
+            if (isServiceActive && shouldStop) {
                 stopForeground(true);
                 stopSelf();
-            } else if(!isServiceActive && !shouldStop) {
+            } else if (!isServiceActive && !shouldStop) {
                 isServiceActive = true;
-
-                notificationManager = new PluginNotificationManager(this);
-
-                startForeground(1, notificationManager.getNotification(
-                        "My App",
-                        "Make App endless",
-                        ConstantsOnlyForAndroid.SMALL_ICON,
-                        "Title",
-                        "Content text"));
+                setNotification(intent);
             }
         }
         return START_STICKY;
+    }
+
+    private void setNotification(Intent intent) {
+        String name = intent.getStringExtra(ConstantsOnlyForAndroid.INTENT_EXTRA_NOTIFICATION_NAME);
+        String description = intent.getStringExtra(ConstantsOnlyForAndroid.INTENT_EXTRA_NOTIFICATION_DESCRIPTION);
+        String title = intent.getStringExtra(ConstantsOnlyForAndroid.INTENT_EXTRA_NOTIFICATION_TITLE);
+        String content_text = intent.getStringExtra(ConstantsOnlyForAndroid.INTENT_EXTRA_NOTIFICATION_CONTENT_TEXT);
+
+        if(description.equals(ConstantsOnlyForAndroid.DEF_INTENT_EXTRA_NOTIFICATION)) {
+            notificationManager = new PluginNotificationManager(this, name);
+        } else {
+            notificationManager = new PluginNotificationManager(this, name, description);
+        }
+
+        if(ConstantsOnlyForAndroid.SMALL_ICON != 0 ) {
+            notificationManager.setNotificationSmallIcon(ConstantsOnlyForAndroid.SMALL_ICON);
+        }
+
+        if(!title.equals(ConstantsOnlyForAndroid.DEF_INTENT_EXTRA_NOTIFICATION))
+            notificationManager.setNotificationTitle(title);
+
+        if(!content_text.equals(ConstantsOnlyForAndroid.DEF_INTENT_EXTRA_NOTIFICATION))
+            notificationManager.setContentText(content_text);
+
+        startForeground(NOTIFICATION_ID, notificationManager.build());
     }
 
 }

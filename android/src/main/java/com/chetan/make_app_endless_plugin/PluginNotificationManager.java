@@ -12,16 +12,50 @@ public class PluginNotificationManager {
 
     private final android.app.NotificationManager mNotificationManager;
     public static final String CHANNEL_ID = "com.chetan.make_app_endless_plugin.channel";
-    private final Context mContext;
+    private final NotificationCompat.Builder builder;
 
-
-    public PluginNotificationManager(Context context) {
+    public PluginNotificationManager(PluginService context, String channelName) {
         mNotificationManager = (android.app.NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.cancelAll();
-        mContext = context;
+        if (isAndroidOOrHigher()) {
+            createChannel(channelName);
+        }
+        builder = new NotificationCompat.Builder(context, PluginNotificationManager.CHANNEL_ID);
     }
 
-    // Does nothing on versions of Android earlier than O.
+    public PluginNotificationManager(PluginService context, String channelName, String channelDescription) {
+        this(context, channelName);
+        if (isAndroidOOrHigher()) {
+            createChannel(channelName, channelDescription);
+        }
+    }
+
+    public void setNotificationSmallIcon(int id) {
+        builder.setSmallIcon(id);
+    }
+
+    public void setNotificationTitle(String title) {
+        builder.setContentTitle(title);
+    }
+
+    public void setContentText(String contentText) {
+        builder.setContentText(contentText);
+    }
+
+    public Notification build() {
+        return builder.build();
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private void createChannel(String name) {
+        if (mNotificationManager.getNotificationChannel(CHANNEL_ID) == null) {
+            int importance = android.app.NotificationManager.IMPORTANCE_LOW;
+            NotificationChannel mChannel = new NotificationChannel(CHANNEL_ID, name, importance);
+            mNotificationManager.createNotificationChannel(mChannel);
+        } else {
+        }
+    }
+
     @RequiresApi(Build.VERSION_CODES.O)
     private void createChannel(String name, String description) {
         if (mNotificationManager.getNotificationChannel(CHANNEL_ID) == null) {
@@ -35,20 +69,5 @@ public class PluginNotificationManager {
 
     private boolean isAndroidOOrHigher() {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.O;
-    }
-
-    public Notification getNotification(String name, String description, int smallIcon,  String title, String contentText) {
-
-        if (isAndroidOOrHigher()) {
-            createChannel(name, description);
-        }
-
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext, PluginNotificationManager.CHANNEL_ID);
-        builder
-                .setSmallIcon(smallIcon)
-                .setContentTitle(title)
-                .setContentText(contentText)
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
-        return builder.build();
     }
 }

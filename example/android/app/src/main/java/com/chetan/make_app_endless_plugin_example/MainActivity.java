@@ -11,6 +11,5 @@ public class MainActivity extends EndlessActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setSmallIcon(R.mipmap.ic_launcher);
     }
 }

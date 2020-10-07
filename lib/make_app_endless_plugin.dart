@@ -10,7 +10,7 @@ class MakeAppEndlessPlugin {
   const MethodChannel(Constants.METHOD_CHANNEL_ID);
 
   Future<void> extendLifeCycle() async {
-    await _channel.invokeMethod(Constants.METHOD_CALL_START_SERVICE);
+    await _channel.invokeMethod(Constants.METHOD_CALL_START_SERVICE, ["name", "des", "title", "des"]);
   }
 
   Future<void> stopLifeCycleExtension() async {

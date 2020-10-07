@@ -14,5 +14,12 @@ public class ConstantsOnlyForAndroid {
     public final static boolean PREF_SERVICE_ACTIVE = true;
     public final static boolean PREF_IS_NOT_SERVICE_ACTIVE = false;
 
-    public static int SMALL_ICON = android.R.drawable.ic_media_play;
+    public static final String INTENT_EXTRA_NOTIFICATION_NAME = "intent-extra-notification-name";
+    public static final String INTENT_EXTRA_NOTIFICATION_DESCRIPTION = "intent-extra-notification-description";
+    public static final String INTENT_EXTRA_NOTIFICATION_TITLE = "intent-extra-notification-title";
+    public static final String INTENT_EXTRA_NOTIFICATION_CONTENT_TEXT = "intent-extra-notification-contentText";
+
+    public static final String DEF_INTENT_EXTRA_NOTIFICATION = "intent-extra-notification-empty-value";
+
+    public static int SMALL_ICON = 0;
 }
