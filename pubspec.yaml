@@ -1,8 +1,7 @@
 name: make_app_endless_plugin
 description: A new flutter plugin project.
 version: 0.0.1
-author:
-homepage:
+homepage: https://github.com/chetan882777/make-app-endless-plugin
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
