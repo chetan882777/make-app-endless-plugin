@@ -69,13 +69,7 @@ public class PluginService  extends Service {
                 isServiceActive = true;
 
                 notificationManager = new PluginNotificationManager(this);
-                notificationManager.buildNotificationChannel();
-                NotificationCompat.Builder builder = new NotificationCompat.Builder(this, PluginNotificationManager.CHANNEL_ID);
-                builder.setSmallIcon(android.R.drawable.ic_media_play)
-                        .setContentTitle("Throw")
-                        .setContentText("Running...")
-                        .setPriority(NotificationCompat.PRIORITY_DEFAULT);
-                startForeground(1, builder.build());
+                startForeground(1, notificationManager.getNotification());
             }
         }
         return START_STICKY;
