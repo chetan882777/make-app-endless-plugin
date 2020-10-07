@@ -23,10 +23,8 @@ public class PluginNotificationManager {
 
     // Does nothing on versions of Android earlier than O.
     @RequiresApi(Build.VERSION_CODES.O)
-    private void createChannel() {
+    private void createChannel(String name, String description) {
         if (mNotificationManager.getNotificationChannel(CHANNEL_ID) == null) {
-            CharSequence name = "MzLifecycleExtension";
-            String description = "Extend flutter life cycle";
             int importance = android.app.NotificationManager.IMPORTANCE_LOW;
             NotificationChannel mChannel = new NotificationChannel(CHANNEL_ID, name, importance);
             mChannel.setDescription(description);
@@ -39,22 +37,17 @@ public class PluginNotificationManager {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.O;
     }
 
+    public Notification getNotification(String name, String description, int smallIcon,  String title, String contentText) {
 
-    private void buildNotificationChannel() {
-        // Create the (mandatory) notification channel when running on Android Oreo.
         if (isAndroidOOrHigher()) {
-            createChannel();
+            createChannel(name, description);
         }
-    }
-
-    public Notification getNotification() {
-
-        buildNotificationChannel();
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext, PluginNotificationManager.CHANNEL_ID);
-        builder.setSmallIcon(android.R.drawable.ic_media_play)
-                .setContentTitle("Throw")
-                .setContentText("Running...")
+        builder
+                .setSmallIcon(smallIcon)
+                .setContentTitle(title)
+                .setContentText(contentText)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
         return builder.build();
     }

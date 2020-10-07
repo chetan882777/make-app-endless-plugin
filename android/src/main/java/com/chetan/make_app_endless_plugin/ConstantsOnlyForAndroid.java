@@ -13,4 +13,6 @@ public class ConstantsOnlyForAndroid {
     public final static String PREF_IS_SERVICE_ACTIVE = "pref_is_service_active";
     public final static boolean PREF_SERVICE_ACTIVE = true;
     public final static boolean PREF_IS_NOT_SERVICE_ACTIVE = false;
+
+    public static int SMALL_ICON = android.R.drawable.ic_media_play;
 }

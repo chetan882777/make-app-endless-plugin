@@ -58,4 +58,8 @@ public class EndlessActivity extends FlutterActivity {
                 ConstantsOnlyForAndroid.PREF_IS_NOT_ACTIVITY_ACTIVE).apply();
         super.onDestroy();
     }
+
+    protected void setSmallIcon(int id) {
+        ConstantsOnlyForAndroid.SMALL_ICON = id;
+    }
 }

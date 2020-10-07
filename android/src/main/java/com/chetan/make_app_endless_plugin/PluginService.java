@@ -69,7 +69,13 @@ public class PluginService  extends Service {
                 isServiceActive = true;
 
                 notificationManager = new PluginNotificationManager(this);
-                startForeground(1, notificationManager.getNotification());
+
+                startForeground(1, notificationManager.getNotification(
+                        "My App",
+                        "Make App endless",
+                        ConstantsOnlyForAndroid.SMALL_ICON,
+                        "Title",
+                        "Content text"));
             }
         }
         return START_STICKY;
