@@ -24,8 +24,8 @@ public class EndlessActivity extends FlutterActivity {
         super.onCreate(savedInstanceState);
 
         preferences = getSharedPreferences(ConstantsOnlyForAndroid.PREF_NAME, MODE_PRIVATE);
-        preferences.edit().putBoolean(ConstantsOnlyForAndroid.PREF_IS_THROW_ACTIVITY_ACTIVE,
-                ConstantsOnlyForAndroid.PREF_THROW_ACTIVITY_ACTIVE).apply();
+        preferences.edit().putBoolean(ConstantsOnlyForAndroid.PREF_IS_ACTIVITY_ACTIVE,
+                ConstantsOnlyForAndroid.PREF_ACTIVITY_ACTIVE).apply();
     }
 
     @Nullable
@@ -53,8 +53,8 @@ public class EndlessActivity extends FlutterActivity {
 
     @Override
     protected void onDestroy() {
-        preferences.edit().putBoolean(ConstantsOnlyForAndroid.PREF_IS_THROW_ACTIVITY_ACTIVE,
-                ConstantsOnlyForAndroid.PREF_IS_NOT_THROW_ACTIVITY_ACTIVE).apply();
+        preferences.edit().putBoolean(ConstantsOnlyForAndroid.PREF_IS_ACTIVITY_ACTIVE,
+                ConstantsOnlyForAndroid.PREF_IS_NOT_ACTIVITY_ACTIVE).apply();
         super.onDestroy();
     }
 }
