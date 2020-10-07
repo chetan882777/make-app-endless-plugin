@@ -35,9 +35,13 @@ class _MyAppState extends State<MyApp> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   RaisedButton(
-                    child: const Text('Start'),
+                    child: const Text('Make Endless'),
                     onPressed: () async {
-                      await plugin.extendLifeCycle(null, null, null, null);
+                      await plugin.extendLifeCycle(
+                          "mke App Endless",          // Notification Channel Name
+                          null,                       // Notification Channel Description
+                          "Title",                    // Notification Content title
+                          "No description required"); // Notification Content description
                     },
                   ),
                   RaisedButton(
