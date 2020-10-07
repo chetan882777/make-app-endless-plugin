@@ -39,6 +39,12 @@ public class EndlessActivity extends FlutterActivity {
         return setupFlutterEngine();
     }
 
+    @Override
+    public boolean shouldDestroyEngineWithHost() {
+        boolean isServiceActive = preferences.getBoolean(ConstantsOnlyForAndroid.PREF_IS_SERVICE_ACTIVE, ConstantsOnlyForAndroid.PREF_IS_NOT_SERVICE_ACTIVE);
+        return !isServiceActive;
+    }
+
     private FlutterEngine setupFlutterEngine() {
         Log.v(TAG, "Setting up FlutterEngine.");
 

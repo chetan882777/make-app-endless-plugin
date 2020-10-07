@@ -1,6 +1,13 @@
 package com.chetan.make_app_endless_plugin;
 
+import android.content.Context;
+import android.content.Intent;
+import android.os.Build;
+import android.util.Log;
+
 import androidx.annotation.NonNull;
+
+import java.util.Collections;
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
 import io.flutter.plugin.common.MethodCall;
@@ -11,38 +18,49 @@ import io.flutter.plugin.common.PluginRegistry.Registrar;
 
 /** MakeAppEndlessPlugin */
 public class MakeAppEndlessPlugin implements FlutterPlugin, MethodCallHandler {
-  /// The MethodChannel that will the communication between Flutter and native Android
-  ///
-  /// This local reference serves to register the plugin with the Flutter Engine and unregister it
-  /// when the Flutter Engine is detached from the Activity
+  private static final String TAG = MakeAppEndlessPlugin.class.getSimpleName();
   private MethodChannel channel;
+  private Context mContext;
 
   @Override
   public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) {
     channel = new MethodChannel(flutterPluginBinding.getFlutterEngine().getDartExecutor(), "make_app_endless_plugin");
     channel.setMethodCallHandler(this);
+    mContext = flutterPluginBinding.getApplicationContext();
   }
 
-  // This static function is optional and equivalent to onAttachedToEngine. It supports the old
-  // pre-Flutter-1.12 Android projects. You are encouraged to continue supporting
-  // plugin registration via this function while apps migrate to use the new Android APIs
-  // post-flutter-1.12 via https://flutter.dev/go/android-project-migration.
-  //
-  // It is encouraged to share logic between onAttachedToEngine and registerWith to keep
-  // them functionally equivalent. Only one of onAttachedToEngine or registerWith will be called
-  // depending on the user's project. onAttachedToEngine or registerWith must both be defined
-  // in the same class.
   public static void registerWith(Registrar registrar) {
-    final MethodChannel channel = new MethodChannel(registrar.messenger(), "make_app_endless_plugin");
+    final MethodChannel channel = new MethodChannel(registrar.messenger(), Constants.METHOD_CHANNEL_ID);
     channel.setMethodCallHandler(new MakeAppEndlessPlugin());
   }
 
   @Override
   public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
-    if (call.method.equals("getPlatformVersion")) {
-      result.success("Android " + android.os.Build.VERSION.RELEASE);
+    switch (call.method) {
+      case Constants.METHOD_CALL_START_SERVICE: {
+        Log.d(TAG, "onMethodCall: Start service");
+        serviceIntent(false);
+        result.success(null);
+        break;
+      }
+      case Constants.METHOD_CALL_STOP_SERVICE: {
+        Log.d(TAG, "onMethodCall: Stop service");
+        serviceIntent(true);
+        result.success(null);
+        break;
+      }
+      default:
+        result.notImplemented();
+    }
+  }
+
+  private void serviceIntent(boolean shouldStopService) {
+    Intent intent = new Intent(mContext, PluginService.class);
+    intent.putExtra(ConstantsOnlyForAndroid.INTENT_EXTRA_SHOULD_STOP_SERVICE, shouldStopService);
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+      mContext.startForegroundService(intent);
     } else {
-      result.notImplemented();
+      mContext.startService(intent);
     }
   }
 

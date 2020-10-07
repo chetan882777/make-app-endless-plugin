@@ -7,6 +7,7 @@ import android.os.IBinder;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
+import androidx.core.app.NotificationCompat;
 
 import io.flutter.embedding.engine.FlutterEngine;
 import io.flutter.embedding.engine.FlutterEngineCache;
@@ -56,6 +57,33 @@ public class PluginService  extends Service {
     @Override
     public IBinder onBind(Intent intent) {
         return null;
+    }
+
+
+    boolean isServiceActive = false;
+    private PluginNotificationManager notificationManager;
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        if(intent.hasExtra(ConstantsOnlyForAndroid.INTENT_EXTRA_SHOULD_STOP_SERVICE)){
+            boolean shouldStop = intent.getBooleanExtra(ConstantsOnlyForAndroid.INTENT_EXTRA_SHOULD_STOP_SERVICE, false);
+            if(isServiceActive && shouldStop){
+                stopForeground(true);
+                stopSelf();
+            } else if(!isServiceActive) {
+                isServiceActive = true;
+
+                notificationManager = new PluginNotificationManager(this);
+                notificationManager.buildNotificationChannel();
+                NotificationCompat.Builder builder = new NotificationCompat.Builder(this, PluginNotificationManager.CHANNEL_ID);
+                builder.setSmallIcon(android.R.drawable.ic_media_play)
+                        .setContentTitle("Throw")
+                        .setContentText("Running...")
+                        .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+                startForeground(1, builder.build());
+            }
+        }
+        return START_STICKY;
     }
 
 }
