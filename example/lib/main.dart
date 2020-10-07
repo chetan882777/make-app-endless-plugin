@@ -37,7 +37,7 @@ class _MyAppState extends State<MyApp> {
                   RaisedButton(
                     child: const Text('Start'),
                     onPressed: () async {
-                      await plugin.extendLifeCycle();
+                      await plugin.extendLifeCycle(null, null, null, null);
                     },
                   ),
                   RaisedButton(

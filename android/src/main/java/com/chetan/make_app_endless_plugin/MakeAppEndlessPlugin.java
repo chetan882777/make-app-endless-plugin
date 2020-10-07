@@ -2,6 +2,7 @@ package com.chetan.make_app_endless_plugin;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -71,19 +72,20 @@ public class MakeAppEndlessPlugin implements FlutterPlugin, MethodCallHandler {
 
         Intent intent = new Intent(mContext, PluginService.class);
         intent.putExtra(ConstantsOnlyForAndroid.INTENT_EXTRA_SHOULD_STOP_SERVICE, false);
+        Log.d(TAG, "startServiceIntent: " + name);
         intent.putExtra(ConstantsOnlyForAndroid.INTENT_EXTRA_NOTIFICATION_NAME , name);
 
-        if(!description.isEmpty())
+        if(description != null && !description.isEmpty())
             intent.putExtra(ConstantsOnlyForAndroid.INTENT_EXTRA_NOTIFICATION_DESCRIPTION , description);
         else
             intent.putExtra(ConstantsOnlyForAndroid.INTENT_EXTRA_NOTIFICATION_DESCRIPTION , ConstantsOnlyForAndroid.DEF_INTENT_EXTRA_NOTIFICATION);
 
-        if(!title.isEmpty())
+        if(title != null && !title.isEmpty())
             intent.putExtra(ConstantsOnlyForAndroid.INTENT_EXTRA_NOTIFICATION_TITLE , title);
         else
             intent.putExtra(ConstantsOnlyForAndroid.INTENT_EXTRA_NOTIFICATION_TITLE , ConstantsOnlyForAndroid.DEF_INTENT_EXTRA_NOTIFICATION);
 
-        if(!contentText.isEmpty())
+        if(contentText != null && !contentText.isEmpty())
             intent.putExtra(ConstantsOnlyForAndroid.INTENT_EXTRA_NOTIFICATION_CONTENT_TEXT , contentText);
         else
             intent.putExtra(ConstantsOnlyForAndroid.INTENT_EXTRA_NOTIFICATION_CONTENT_TEXT , ConstantsOnlyForAndroid.DEF_INTENT_EXTRA_NOTIFICATION);

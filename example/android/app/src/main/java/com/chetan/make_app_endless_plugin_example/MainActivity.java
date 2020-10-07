@@ -11,5 +11,6 @@ public class MainActivity extends EndlessActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setSmallIcon(android.R.drawable.ic_media_play);
     }
 }
