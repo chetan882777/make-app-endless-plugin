@@ -14,7 +14,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
   MakeAppEndlessPlugin plugin;
 
   @override
@@ -34,25 +33,23 @@ class _MyAppState extends State<MyApp> {
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  RaisedButton(
-                    child: const Text('Make Endless'),
-                    onPressed: () async {
-                      await plugin.extendLifeCycle(
-                          "mke App Endless",          // Notification Channel Name
-                          null,                       // Notification Channel Description
-                          "Title",                    // Notification Content title
-                          "No description required"); // Notification Content description
-                    },
-                  ),
-                  RaisedButton(
-                    child: const Text('Stop'),
-                    onPressed: () async {
-                      await plugin.stopLifeCycleExtension();
-                    },
-                  )
-                ]
-            )
-        ),
+              RaisedButton(
+                child: const Text('Make Endless'),
+                onPressed: () async {
+                  await plugin.extendLifeCycle(
+                      "mke App Endless", // Notification Channel Name
+                      null, // Notification Channel Description
+                      "Title", // Notification Content title
+                      "No description required"); // Notification Content description
+                },
+              ),
+              RaisedButton(
+                child: const Text('Stop'),
+                onPressed: () async {
+                  await plugin.stopLifeCycleExtension();
+                },
+              )
+            ])),
       ),
     );
   }
