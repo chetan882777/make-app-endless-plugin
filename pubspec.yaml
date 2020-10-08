@@ -1,6 +1,6 @@
 name: make_app_endless_plugin
 description: A flutter plugin for running your flutter appplication even if it is removed from background and keeing all of your other plugin alive and active..
-version: 0.0.3
+version: 0.0.4
 homepage: https://github.com/chetan882777/make-app-endless-plugin
 
 environment:
