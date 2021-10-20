@@ -47,7 +47,7 @@ public class EndlessActivity extends FlutterActivity {
                 new FlutterEngine(
                         getApplicationContext(),
                         getFlutterShellArgs().toArray(),
-                        /*automaticallyRegisterPlugins=*/ true);
+                        /*automaticallyRegisterPlugins=*/ false);
         FlutterEngineCache.getInstance().put(ConstantsOnlyForAndroid.CACHED_ENGINE_ID, flutterEngine);
         return flutterEngine;
     }
