@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'dart:async';
 
-import 'package:flutter/services.dart';
 import 'package:make_app_endless_plugin/make_app_endless_plugin.dart';
 
 void main() {
@@ -33,7 +31,7 @@ class _MyAppState extends State<MyApp> {
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-              RaisedButton(
+              ElevatedButton(
                 child: const Text('Make Endless'),
                 onPressed: () async {
                   await plugin.extendLifeCycle(
@@ -43,7 +41,7 @@ class _MyAppState extends State<MyApp> {
                       "No description required"); // Notification Content description
                 },
               ),
-              RaisedButton(
+              ElevatedButton(
                 child: const Text('Stop'),
                 onPressed: () async {
                   await plugin.stopLifeCycleExtension();

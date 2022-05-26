@@ -1,6 +1,5 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:make_app_endless_plugin/make_app_endless_plugin.dart';
 
 void main() {
   const MethodChannel channel = MethodChannel('make_app_endless_plugin');
